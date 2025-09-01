@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Random Element Generator</title>
+    <style>
+        body {
+            font-family: sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f0f0f0;
+            overflow: hidden;
+        }
+
+        #container {
+            position: relative;
+            width: 100vw;
+            height: 100vh;
+        }
+
+        .random-element-wrapper {
+            position: absolute;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            box-sizing: border-box;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+            cursor: pointer;
+            overflow: hidden;
+            text-decoration: none; /* Removes the link underline */
+        }
+
+        .random-element-wrapper:hover {
+            transform: scale(1.05);
+            box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2);
+            z-index: 10;
+        }
+
+        .random-element-wrapper > * {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+            color: white;
+            padding: 10px;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+        }
+
+        img, video {
+            display: block;
+            border-radius: 8px;
+        }
+
+        h1, p, span, div, marquee {
+            word-wrap: break-word;
+            font-size: 1rem;
+        }
+
+    </style>
+</head>
+<body>
+
+    <div id="container"></div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const container = document.getElementById('container');
+            const numElements = 50;
+            const words = ["Hello", "World", "Random", "Data", "Dynamic", "Layout", "Code", "Web", "App", "Creative", "Fun", "Geometry", "Design", "Innovation", "Pixel", "Art", "Function"];
+            const unicodeChars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+            const elementTypes = ['h1', 'span', 'img', 'video', 'div', 'marquee'];
+
+            function getRandom(min, max) {
+                return Math.floor(Math.random() * (max - min + 1)) + min;
+            }
+
+            function getRandomColor() {
+                const letters = '0123456789ABCDEF';
+                let color = '#';
+                for (let i = 0; i < 6; i++) {
+                    color += letters[Math.floor(Math.random() * 16)];
+                }
+                return color;
+            }
+
+            function getRandomText() {
+                const textLength = getRandom(1, 4);
+                let text = '';
+                for (let i = 0; i < textLength; i++) {
+                    text += words[getRandom(0, words.length - 1)] + ' ';
+                }
+                return text.trim();
+            }
+
+            function generateRandomUnicodeURL() {
+                let result = '';
+                for (let i = 0; i < 100; i++) {
+                    result += unicodeChars.charAt(Math.floor(Math.random() * unicodeChars.length));
+                }
+                return `MazeQuest/${result}`;
+            }
+
+            // Determine the URL for all elements once at the beginning
+            const winChance = 0.1; // 10%
+            let redirectURL;
+            if (Math.random() < winChance) {
+                redirectURL = 'MazeQuest/winwin';
+            } else {
+                redirectURL = generateRandomUnicodeURL();
+            }
+
+            for (let i = 0; i < numElements; i++) {
+                // Create a wrapper link element for the redirect
+                const wrapper = document.createElement('a');
+                wrapper.classList.add('random-element-wrapper');
+                wrapper.href = redirectURL;
+                wrapper.target = "_blank"; // Open in a new tab
+
+                // Create the random element
+                const randomElementType = elementTypes[getRandom(0, elementTypes.length - 1)];
+                const element = document.createElement(randomElementType);
+                
+                // Set content based on element type
+                if (randomElementType === 'img') {
+                    const width = getRandom(50, 200);
+                    const height = getRandom(50, 200);
+                    element.src = `https://placehold.co/${width}x${height}/${getRandomColor().substring(1)}/fff?text=${getRandomText().replace(/\s/g, '+')}`;
+                } else if (randomElementType === 'video') {
+                    // Using a small, safe video URL
+                    element.src = 'https://www.w3schools.com/html/mov_bbb.mp4';
+                    element.poster = 'https://placehold.co/200x200/cccccc/000?text=Video';
+                    element.controls = true;
+                } else {
+                    element.textContent = getRandomText();
+                }
+
+                // Set random dimensions and position for the wrapper
+                const containerWidth = container.offsetWidth;
+                const containerHeight = container.offsetHeight;
+                const width = getRandom(50, 200);
+                const height = getRandom(50, 200);
+                const left = getRandom(0, containerWidth - width);
+                const top = getRandom(0, containerHeight - height);
+                wrapper.style.width = `${width}px`;
+                wrapper.style.height = `${height}px`;
+                wrapper.style.left = `${left}px`;
+                wrapper.style.top = `${top}px`;
+                wrapper.style.backgroundColor = getRandomColor();
+                
+                // Append the created element to the wrapper
+                wrapper.appendChild(element);
+                container.appendChild(wrapper);
+            }
+        });
+    </script>
+
+</body>
+</html>
