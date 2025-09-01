@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Maze Quest</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap');
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #1a202c; /* Dark charcoal background */
+        }
+        @keyframes spin {
+            from {
+                transform: rotate(0deg);
+            }
+            to {
+                transform: rotate(360deg);
+            }
+        }
+        .animate-spin-slow {
+            animation: spin 6s linear infinite;
+        }
+    </style>
+</head>
+<body class="flex items-center justify-center min-h-screen p-4">
+    <div class="bg-gray-800 text-white rounded-2xl shadow-2xl p-8 max-w-sm w-full text-center">
+
+        <!-- The Spinning Image with a continuous animation -->
+        <div class="relative w-48 h-48 mx-auto mb-8 animate-spin-slow active:rotate-[45deg] transition-transform duration-200">
+            <img class="absolute inset-0 w-full h-full text-blue-400" src="https://pbs.twimg.com/media/E-t7CuIXEAMGqRE?format=jpg&name=4096x4096">
+                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 16h-2v-2h2v2zm0-4h-2V7h2v7z"/>
+            </svg>
+            <!-- Adjusted text position for better visual centering -->
+            <div class="absolute inset-0 flex items-center justify-center text-4xl text-white font-bold -translate-y-0.5"></div>
+        </div>
+
+        <!-- The Button -->
+        <a href="404.html" class="inline-block bg-blue-600 hover:bg-blue-700 active:bg-blue-800 text-white font-bold py-3 px-6 rounded-full shadow-lg transition-colors duration-200">Proceed to the Next Room</a>
+
+        <p class="mt-4 text-gray-400 text-sm">Clicking this will reveal your fate...</p>
+    </div>
+</body>
+</html>
